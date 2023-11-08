@@ -7,6 +7,7 @@ export const LoginBgContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: ${props => (props.DarkTheme ? '#181818' : '#f9f9f9')};
 `
 export const LoginContainer = styled.form`
   height: 400px;
@@ -15,7 +16,8 @@ export const LoginContainer = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 20px 16px 20px 16px #e2e8f0;
+ box-shadow:${props => (props.DarkTheme ? '' : '20px 16px 20px 16px  #f4f4f4')}
+  background-color: ${props => (props.DarkTheme ? '#000000' : '#f9f9f9')};
 `
 export const LogoImage = styled.img`
   height: 30px;
@@ -24,7 +26,7 @@ export const LogoImage = styled.img`
 export const Label = styled.label`
   font-size: 10px;
   font-family: 'Roboto';
-  color: ${props => (props.show ? ' #231f20' : '#94a3b8')};
+  color: ${props => (props.DarkTheme ? '#f9f9f9' : '#000000')};
   font-weight: bold;
   margin-bottom: 4px;
   width: 300px;

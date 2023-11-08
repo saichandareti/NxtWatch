@@ -1,8 +1,10 @@
 import React from 'react'
 
 const NxtWatchContext = React.createContext({
-  darkTheme: false,
+  DarkTheme: false,
   ChangeTheme: () => {},
+  saved: [],
+  AddToSaved: () => {},
 })
 
 export default NxtWatchContext

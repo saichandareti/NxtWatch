@@ -1,6 +1,6 @@
 import {Component} from 'react'
-import {ImCross} from 'react-icons/im'
-import {AiOutlineSearch} from 'react-icons/ai'
+
+import {FaFire} from 'react-icons/fa'
 import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 
@@ -37,7 +37,7 @@ const apiConstants = {
   initial: 'iNITIAL',
 }
 
-class Home extends Component {
+class Saved extends Component {
   state = {
     isSuccess: apiConstants.initial,
     jsonData: [],
@@ -53,15 +53,11 @@ class Home extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  OnClickRemoveBanner = () => {
-    this.setState({isBannerPresent: false})
-  }
-
   GetVideosApi = async () => {
     this.setState({isSuccess: apiConstants.inProgress})
     const {searchInput} = this.state
     const jwtToken = Cookies.get('jwt_token')
-    const url = `https://apis.ccbp.in/videos/all?search=${searchInput}`
+    const url = `https://apis.ccbp.in/videos/trending`
     const options = {
       method: 'GET',
       headers: {
@@ -91,44 +87,33 @@ class Home extends Component {
     }
   }
 
-  RenderSuccessView = () => {
-    const {jsonData} = this.state
-    return (
-      <NxtWatchContext.Consumer>
-        {value => {
-          const {DarkTheme} = value
-          return (
-            <VideosList DarkTheme={DarkTheme}>
-              {jsonData.length === 0 ? (
-                <FailureCon>
-                  <FailureImage
-                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
-                    alt="no videos"
-                  />
-                  <FailureHeading DarkTheme={DarkTheme}>
-                    No Search results found
-                  </FailureHeading>
-                  <FailurePara DarkTheme={DarkTheme}>
-                    Try different key words or remove search filter
-                  </FailurePara>
-                  <RetryButton
-                    DarkTheme={DarkTheme}
-                    onClick={this.GetVideosApi}
-                  >
-                    Retry
-                  </RetryButton>
-                </FailureCon>
-              ) : (
-                jsonData.map(each => (
-                  <HomeVideoItem details={each} key={each.id} />
-                ))
-              )}
-            </VideosList>
-          )
-        }}
-      </NxtWatchContext.Consumer>
-    )
-  }
+  RenderSuccessView = () => (
+    <NxtWatchContext.Consumer>
+      {value => {
+        const {saved, DarkTheme} = value
+        return (
+          <VideosList>
+            {saved.length === 0 ? (
+              <FailureCon DarkTheme={DarkTheme}>
+                <FailureImage
+                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
+                  alt="no saved videos"
+                />
+                <FailureHeading DarkTheme={DarkTheme}>
+                  No Saved videos found
+                </FailureHeading>
+                <FailurePara DarkTheme={DarkTheme}>
+                  You can save your videos while watching them
+                </FailurePara>
+              </FailureCon>
+            ) : (
+              saved.map(each => <HomeVideoItem details={each} key={each.id} />)
+            )}
+          </VideosList>
+        )
+      }}
+    </NxtWatchContext.Consumer>
+  )
 
   RenderContent = () => {
     const {isSuccess} = this.state
@@ -164,8 +149,6 @@ class Home extends Component {
   }
 
   render() {
-    const {isBannerPresent} = this.state
-
     return (
       <NxtWatchContext.Consumer>
         {value => {
@@ -173,46 +156,17 @@ class Home extends Component {
           return (
             <>
               <Header />
-              <HomeBgContainer>
+              <HomeBgContainer DarkTheme={DarkTheme}>
                 <SideBar />
-                <HomeContainer data-testid="home" DarkTheme={DarkTheme}>
-                  {isBannerPresent ? (
-                    <Banner data-testid="banner">
-                      <BannerUpper>
-                        <HomeLogo
-                          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-                          alt="nxt watch logo"
-                        />
-                        <IntoButton
-                          type="button"
-                          onClick={this.OnClickRemoveBanner}
-                          data-testid="close"
-                        >
-                          <ImCross />
-                        </IntoButton>
-                      </BannerUpper>
-                      <BannerLower>
-                        <PlanPara>
-                          Buy Nxt Watch Premium prepaid plans with UPI
-                        </PlanPara>
-                        <GetButton type="button">GET IT NOW</GetButton>
-                      </BannerLower>
-                    </Banner>
-                  ) : null}
-                  <InputCon>
-                    <Input
-                      type="search"
-                      onChange={this.OnChangeSearchInput}
-                      placeholder="Search"
-                    />
-                    <SearchButton
-                      data-testid="searchButton"
-                      type="button"
-                      onClick={this.GetVideosApi}
-                    >
-                      <AiOutlineSearch />
-                    </SearchButton>
-                  </InputCon>
+                <HomeContainer data-testid="savedVideos" DarkTheme={DarkTheme}>
+                  <Banner data-testid="banner" DarkTheme={DarkTheme}>
+                    <IntoButton DarkTheme={DarkTheme}>
+                      <FaFire />
+                    </IntoButton>
+                    <FailureHeading DarkTheme={DarkTheme}>
+                      Saved Videos
+                    </FailureHeading>
+                  </Banner>
                   {this.RenderContent()}
                 </HomeContainer>
               </HomeBgContainer>
@@ -224,4 +178,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default Saved

@@ -1,12 +1,13 @@
 import {Component} from 'react'
-import {ImCross} from 'react-icons/im'
-import {AiOutlineSearch} from 'react-icons/ai'
+
+import {FaFire} from 'react-icons/fa'
 import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 
 import Header from '../Header'
 import SideBar from '../SideBar'
 import HomeVideoItem from '../HomeVideoItem'
+
 import NxtWatchContext from '../../context/NxtWatchContext'
 
 import {
@@ -37,12 +38,11 @@ const apiConstants = {
   initial: 'iNITIAL',
 }
 
-class Home extends Component {
+class NotFound extends Component {
   state = {
     isSuccess: apiConstants.initial,
     jsonData: [],
     searchInput: '',
-    isBannerPresent: true,
   }
 
   componentDidMount() {
@@ -53,15 +53,11 @@ class Home extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  OnClickRemoveBanner = () => {
-    this.setState({isBannerPresent: false})
-  }
-
   GetVideosApi = async () => {
     this.setState({isSuccess: apiConstants.inProgress})
     const {searchInput} = this.state
     const jwtToken = Cookies.get('jwt_token')
-    const url = `https://apis.ccbp.in/videos/all?search=${searchInput}`
+    const url = `https://apis.ccbp.in/videos/trending`
     const options = {
       method: 'GET',
       headers: {
@@ -99,30 +95,9 @@ class Home extends Component {
           const {DarkTheme} = value
           return (
             <VideosList DarkTheme={DarkTheme}>
-              {jsonData.length === 0 ? (
-                <FailureCon>
-                  <FailureImage
-                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
-                    alt="no videos"
-                  />
-                  <FailureHeading DarkTheme={DarkTheme}>
-                    No Search results found
-                  </FailureHeading>
-                  <FailurePara DarkTheme={DarkTheme}>
-                    Try different key words or remove search filter
-                  </FailurePara>
-                  <RetryButton
-                    DarkTheme={DarkTheme}
-                    onClick={this.GetVideosApi}
-                  >
-                    Retry
-                  </RetryButton>
-                </FailureCon>
-              ) : (
-                jsonData.map(each => (
-                  <HomeVideoItem details={each} key={each.id} />
-                ))
-              )}
+              {jsonData.map(each => (
+                <HomeVideoItem details={each} key={each.id} />
+              ))}
             </VideosList>
           )
         }}
@@ -164,8 +139,6 @@ class Home extends Component {
   }
 
   render() {
-    const {isBannerPresent} = this.state
-
     return (
       <NxtWatchContext.Consumer>
         {value => {
@@ -173,47 +146,17 @@ class Home extends Component {
           return (
             <>
               <Header />
-              <HomeBgContainer>
+              <HomeBgContainer DarkTheme={DarkTheme}>
                 <SideBar />
-                <HomeContainer data-testid="home" DarkTheme={DarkTheme}>
-                  {isBannerPresent ? (
-                    <Banner data-testid="banner">
-                      <BannerUpper>
-                        <HomeLogo
-                          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-                          alt="nxt watch logo"
-                        />
-                        <IntoButton
-                          type="button"
-                          onClick={this.OnClickRemoveBanner}
-                          data-testid="close"
-                        >
-                          <ImCross />
-                        </IntoButton>
-                      </BannerUpper>
-                      <BannerLower>
-                        <PlanPara>
-                          Buy Nxt Watch Premium prepaid plans with UPI
-                        </PlanPara>
-                        <GetButton type="button">GET IT NOW</GetButton>
-                      </BannerLower>
-                    </Banner>
-                  ) : null}
-                  <InputCon>
-                    <Input
-                      type="search"
-                      onChange={this.OnChangeSearchInput}
-                      placeholder="Search"
-                    />
-                    <SearchButton
-                      data-testid="searchButton"
-                      type="button"
-                      onClick={this.GetVideosApi}
-                    >
-                      <AiOutlineSearch />
-                    </SearchButton>
-                  </InputCon>
-                  {this.RenderContent()}
+                <HomeContainer data-testid="trending" DarkTheme={DarkTheme}>
+                  <FailureImage
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-not-found-light-theme-img.png"
+                    alt="not found"
+                  />
+                  <FailureHeading>Page Not Found</FailureHeading>
+                  <FailurePara>
+                    We are sorry, the page you requested could not be found.
+                  </FailurePara>
                 </HomeContainer>
               </HomeBgContainer>
             </>
@@ -224,4 +167,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default NotFound

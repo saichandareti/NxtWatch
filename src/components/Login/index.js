@@ -1,6 +1,8 @@
 import {Component} from 'react'
-
+import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
+
+import NxtWatchContext from '../../context/NxtWatchContext'
 import {
   LoginBgContainer,
   LoginContainer,
@@ -34,7 +36,6 @@ class Login extends Component {
     this.setState({nameInput: '', passwordInput: ''})
     Cookies.set('jwt_token', jwtToken, {expires: 30})
 
-    console.log(jwtToken)
     const {history} = this.props
     history.replace('/')
   }
@@ -73,47 +74,73 @@ class Login extends Component {
   }
 
   render() {
-    const {showError, errorMsg, passwordInput, showPassword} = this.state
+    const {
+      showError,
+      errorMsg,
+      nameInput,
+      passwordInput,
+      showPassword,
+    } = this.state
+    const jwtToken = Cookies.get('jwt_token')
+
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
 
     return (
-      <LoginBgContainer>
-        <LoginContainer>
-          <LogoImage src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" />
-          <InputCon>
-            <Label htmlFor="username">USERNAME</Label>
-            <Input
-              type="text"
-              placeholder="Username"
-              id="username"
-              onChange={this.OnChangeNameInput}
-            />
-          </InputCon>
-          <InputCon>
-            <Label htmlFor="password">PASSWORD</Label>
-            <Input
-              value={passwordInput}
-              type="password"
-              placeholder="Password"
-              id="password"
-              onChange={this.OnChangePasswordInput}
-            />
-          </InputCon>
-          <ShowCon>
-            <Input
-              type="checkbox"
-              id="show-password"
-              onChange={this.OnClickShow}
-            />
-            <Label htmlFor="show-password" show>
-              Show Password
-            </Label>
-          </ShowCon>
-          <LoginButton type="submit" onClick={this.LoginCreds}>
-            Login
-          </LoginButton>
-          {showError ? <ErrorM>{errorMsg}</ErrorM> : ''}
-        </LoginContainer>
-      </LoginBgContainer>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {DarkTheme} = value
+          return (
+            <LoginBgContainer DarkTheme={DarkTheme}>
+              <LoginContainer DarkTheme={DarkTheme}>
+                <LogoImage
+                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                  alt="website logo"
+                />
+                <InputCon>
+                  <Label htmlFor="username" DarkTheme={DarkTheme}>
+                    USERNAME
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder="Username"
+                    id="username"
+                    onChange={this.OnChangeNameInput}
+                    value={nameInput}
+                  />
+                </InputCon>
+                <InputCon>
+                  <Label htmlFor="password" DarkTheme={DarkTheme}>
+                    PASSWORD
+                  </Label>
+                  <Input
+                    value={passwordInput}
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Password"
+                    id="password"
+                    onChange={this.OnChangePasswordInput}
+                  />
+                </InputCon>
+                <ShowCon>
+                  <Input
+                    type="checkbox"
+                    id="show-password"
+                    onChange={this.OnClickShow}
+                  />
+                  <Label htmlFor="show-password" DarkTheme={DarkTheme} show>
+                    Show Password
+                  </Label>
+                </ShowCon>
+                <LoginButton type="submit" onClick={this.LoginCreds}>
+                  Login
+                </LoginButton>
+                {showError ? <ErrorM>{errorMsg}</ErrorM> : ''}
+              </LoginContainer>
+            </LoginBgContainer>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

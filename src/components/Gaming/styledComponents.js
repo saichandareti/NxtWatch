@@ -1,25 +1,27 @@
 import styled from 'styled-components'
 
 export const Banner = styled.div`
-  height: 250px;
+  height: 300px;
   width: 75vw;
-  background-image: url('https://assets.ccbp.in/frontend/react-js/nxt-watch-banner-bg.png');
-  background-size: cover;
-  padding: 20px;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  background-color: ${props => (props.DarkTheme ? '#231f20' : '#f9f9f9')};
 `
 export const HomeBgContainer = styled.div`
-  min-height: 90vh;
+  height: 90vh;
   width: 100vw;
   display: flex;
   flex-direction: row;
+  background-color: ${props => (props.DarkTheme ? '#181818' : '#f9f9f9')};
 `
 export const HomeContainer = styled.div`
   height: 90vh;
   width: 90vw;
   display: flex;
   flex-direction: column;
-  padding: 30px;
-  background-color: ${props => (props.DarkTheme ? '#181818' : '#f9f9f9')};
+  background-color: ${props => (props.DarkTheme ? '#0f0f0f' : '#f9f9f9')};
 `
 export const BannerUpper = styled.div`
   height: 60px;
@@ -33,13 +35,17 @@ export const HomeLogo = styled.img`
   height: 30px;
 `
 export const IntoButton = styled.button`
-  background-color: transparent;
+  background-color: #d7dfe9;
   border: 0px solid;
   cursor: pointer;
   font-weight: 400;
   color: #231f20;
-  font-size: 10px;
+  font-size: 30px;
   margin-top: 0px;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  color: #ff0000;
 `
 export const BannerLower = styled.div`
   height: 140px;
@@ -98,8 +104,7 @@ export const SearchButton = styled.button`
   border-left: 1px solid #64748b;
 `
 export const VideosList = styled.ul`
-  width: 79vw;
-  height: auto;
+  width: 100%;
   padding-left: 0px;
   display: flex;
   flex-direction: row;
@@ -113,18 +118,20 @@ export const FailureCon = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: ${props => (props.DarkTheme ? '#181818' : '#f9f9f9')};
 `
 export const FailureImage = styled.img`
   height: 300px;
 `
 export const FailureHeading = styled.h1`
   font-size: 24px;
-  color: #212121;
+  color: ${props => (props.DarkTheme ? '#f9f9f9' : '#212121')};
   font-family: 'Roboto';
+  margin-left: 30px;
 `
 export const FailurePara = styled.p`
   font-size: 16px;
-  color: #475569;
+  color: ${props => (props.DarkTheme ? '#f9f9f9' : '#212121')};
   font-family: 'Roboto';
 `
 export const RetryButton = styled.button`
