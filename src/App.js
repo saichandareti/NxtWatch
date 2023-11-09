@@ -24,6 +24,9 @@ class App extends Component {
       if (filterd.length !== 0) {
         const newList = savedList.filter(each => each.id !== details.id)
         this.setState({savedList: newList})
+      } else {
+        savedList.push(details)
+        this.setState({savedList})
       }
     } else {
       savedList.push(details)

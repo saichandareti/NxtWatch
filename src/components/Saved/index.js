@@ -100,10 +100,10 @@ class Saved extends Component {
                   alt="no saved videos"
                 />
                 <FailureHeading DarkTheme={DarkTheme}>
-                  No Saved videos found
+                  No saved videos found
                 </FailureHeading>
                 <FailurePara DarkTheme={DarkTheme}>
-                  You can save your videos while watching them
+                  Save your videos by clicking a button
                 </FailurePara>
               </FailureCon>
             ) : (

@@ -3,7 +3,6 @@ import {Component} from 'react'
 import {FaFire} from 'react-icons/fa'
 import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
-
 import Header from '../Header'
 import SideBar from '../SideBar'
 import HomeVideoItem from '../HomeVideoItem'

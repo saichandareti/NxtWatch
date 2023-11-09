@@ -84,10 +84,6 @@ class VideoItemDetails extends Component {
     }
   }
 
-  OnclickSave = () => {
-    this.setState(prev => ({saved: !prev.saved}))
-  }
-
   OnChangeSearchInput = event => {
     this.setState({searchInput: event.target.value})
   }
@@ -161,6 +157,7 @@ class VideoItemDetails extends Component {
 
           const videoSave = () => {
             AddToSaved(jsonData)
+            this.setState(prev => ({saved: !prev.saved}))
           }
 
           return (
@@ -203,12 +200,8 @@ class VideoItemDetails extends Component {
                     </DislikeButton>
                   </DislikeCon>
                   <SaveCon>
-                    <BiListPlus onClick={videoSave} />
-                    <SaveButton
-                      type="button"
-                      onClick={this.OnclickSave}
-                      saved={saved}
-                    >
+                    <BiListPlus />
+                    <SaveButton type="button" onClick={videoSave} saved={saved}>
                       {saved ? 'Saved' : 'Save'}
                     </SaveButton>
                   </SaveCon>

@@ -138,18 +138,34 @@ class Home extends Component {
         return this.RenderSuccessView()
       case apiConstants.OnFailure:
         return (
-          <FailureCon>
-            <FailureImage
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-              alt="failure view"
-            />
-            <FailureHeading>Oops! Something Went Wrong</FailureHeading>
-            <FailurePara>
-              We are having some trouble to complete your request. Please try
-              again.
-            </FailurePara>
-            <RetryButton onClick={this.GetVideosApi}>Retry</RetryButton>
-          </FailureCon>
+          <NxtWatchContext.Consumer>
+            {value => {
+              const {DarkTheme} = value
+              return (
+                <FailureCon>
+                  {DarkTheme ? (
+                    <FailureImage
+                      src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png"
+                      alt="failure view"
+                    />
+                  ) : (
+                    <FailureImage
+                      src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
+                      alt="failure view"
+                    />
+                  )}
+                  <FailureHeading>Oops! Something Went Wrong</FailureHeading>
+                  <FailurePara>
+                    We are having some trouble to complete your request. Please
+                    try again.
+                  </FailurePara>
+                  <RetryButton type="button" onClick={this.GetVideosApi}>
+                    Retry
+                  </RetryButton>
+                </FailureCon>
+              )
+            }}
+          </NxtWatchContext.Consumer>
         )
       case apiConstants.inProgress:
         return (

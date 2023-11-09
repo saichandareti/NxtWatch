@@ -39,46 +39,51 @@ const Header = props => {
         }
         return (
           <HeaderContainer DarkTheme={DarkTheme}>
-            <Link to="/" style={{'text-decoration': 'none'}}>
-              {DarkTheme ? (
-                <LogoImage
-                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png"
-                  alt="website logo"
-                />
-              ) : (
-                <LogoImage
-                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-                  alt="website logo"
-                />
-              )}
-            </Link>
-            <RightContainer>
-              {DarkTheme ? (
-                <ThemeButton
-                  type="button"
-                  onClick={changeThemeColor}
-                  DarkTheme={DarkTheme}
-                  data-testid="theme"
-                >
-                  <BsSun />
-                </ThemeButton>
-              ) : (
-                <ThemeButton
-                  type="button"
-                  onClick={changeThemeColor}
-                  DarkTheme={DarkTheme}
-                  data-testid="theme"
-                >
-                  <BsMoon />
-                </ThemeButton>
-              )}
-              <ListItem>
-                <LogoImage
-                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
-                  alt="profile"
-                />
-              </ListItem>
-              <PopupBg>
+            <>
+              <Link to="/" style={{'text-decoration': 'none'}}>
+                {DarkTheme ? (
+                  <LogoImage
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png"
+                    alt="website logo"
+                  />
+                ) : (
+                  <LogoImage
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                    alt="website logo"
+                  />
+                )}
+              </Link>
+              <RightContainer>
+                {DarkTheme ? (
+                  <ListItem>
+                    <ThemeButton
+                      type="button"
+                      onClick={changeThemeColor}
+                      DarkTheme={DarkTheme}
+                      data-testid="theme"
+                    >
+                      <BsSun />
+                    </ThemeButton>
+                  </ListItem>
+                ) : (
+                  <ListItem>
+                    <ThemeButton
+                      type="button"
+                      onClick={changeThemeColor}
+                      DarkTheme={DarkTheme}
+                      data-testid="theme"
+                    >
+                      <BsMoon />
+                    </ThemeButton>
+                  </ListItem>
+                )}
+
+                <ListItem>
+                  <LogoImage
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
+                    alt="profile"
+                  />
+                </ListItem>
                 <Popup
                   modal
                   trigger={
@@ -91,18 +96,20 @@ const Header = props => {
                 >
                   {close => (
                     <PopUpCon DarkTheme={DarkTheme}>
-                      <Caution>Are you sure, you want to logout?</Caution>
+                      <Caution>Are you sure you want to logout?</Caution>
                       <ButtonCon>
-                        <CancelButton onClick={() => close()}>
+                        <CancelButton type="button" onClick={() => close()}>
                           Cancel
                         </CancelButton>
-                        <OutButton onClick={onClickLogout}>Confirm</OutButton>
+                        <OutButton type="button" onClick={onClickLogout}>
+                          Confirm
+                        </OutButton>
                       </ButtonCon>
                     </PopUpCon>
                   )}
                 </Popup>
-              </PopupBg>
-            </RightContainer>
+              </RightContainer>
+            </>
           </HeaderContainer>
         )
       }}
